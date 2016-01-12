@@ -110,9 +110,8 @@ class Pb2Reader:
         # check if all required fields are present and put empty lists for
         # non-present repeated fields.
         for field in self.message.fields_by_name.values():
-            if (field.label not in obj):
-                if (field.label == "required"):
-                    raise Pb2ReaderException("Required field {} not present in {}".format(field.name, self.message.name))
+            if (field.name not in obj and field.label == "required"):
+                raise Pb2ReaderException("Required field {} not present in {}".format(field.name, self.message.name))
 
         return obj
 
@@ -126,13 +125,14 @@ class Pb2Reader:
             if (message):
                 val = self.read_message(wire_val, message)
             else:
-                enum = self.protocol.messages.get(field.type)
+                enum = self.protocol.enums.get(field.type)
                 if (enum):
                     val = self.read_enum(wire_val, enum)
                 else:
                     raise Pb2ReaderException("Unknown field type {}".format(field.type))
         if (field.filter):
             val = field.filter[0](val)
+
         return val
                 
 
@@ -159,7 +159,7 @@ class Pb2Reader:
 
     def read_enum(self, wire_val, enum):
         try:
-            return enum.defs[wire_val]
+            return enum.defs_by_number[wire_val]
         except KeyError:
             raise Pb2ReaderException("Value {:d} doesn't match any enum value in {}".format(wire_val, enum.name))
 

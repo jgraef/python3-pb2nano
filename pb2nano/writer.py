@@ -119,8 +119,12 @@ class Pb2Writer:
 
 
     def write_field_enum(self, field_number, val, enum):
+        try:
+            wire_val = enum.defs_by_name[val]
+        except KeyError:
+            raise Pb2WriterException("{} doesn't match any enum constant in {}".format(val, enum.name))
         self.wire.write_key(field_number, 0)
-        self.wire.write_varint(val)
+        self.wire.write_varint(wire_val)
 
 
 __all__ = [
