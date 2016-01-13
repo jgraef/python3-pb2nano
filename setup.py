@@ -14,6 +14,8 @@ setup(name = "python3-pb2nano",
 
       url = "https://github.com/jgraef/python3-pb2nano",
       
+      download_url = "https://github.com/jgraef/python3-pb2nano/tarball/v0.0.1",
+      
       packages = ["pb2nano"],
 
       license = "MIT")
