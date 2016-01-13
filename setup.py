@@ -4,9 +4,9 @@ from distutils.core import setup
 
 
 setup(name = "python3-pb2nano",
-      version = "0.0.1-dev",
+      version = "0.0.1",
 
-      description = "A hack to have minimal protobuf2 reader and writer in Python 3",
+      description = "A hack to have minimal protobuf2 reader and writer in Python 3.",
 
       author = "Janosch Gräf",
 
